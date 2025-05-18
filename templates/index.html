@@ -5,13 +5,15 @@
   <title>Shikilytics</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="static/css/plate.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> -->
 </head>
 <body>
   
   {% include "header.html" %}
   
-  <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-6">
+  <div class="plate mx-auto bg-white shadow-xl rounded-2xl p-6">
     <h1 class="text-2xl font-bold mb-4 text-center">📊 Мой дашборд</h1>
     <div id="chart"></div>
   </div>
@@ -27,5 +29,8 @@
 
     Plotly.newPlot('chart', [trace], { margin: { t: 30 } });
   </script>
+
+  {% include "footer.html" %}
+
 </body>
 </html>

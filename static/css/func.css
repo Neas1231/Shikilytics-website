@@ -1,0 +1,33 @@
+.func_logo {
+  background-image: url(../imgs/functions.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center; 
+  width: 50px; 
+  height: 30px; 
+}
+
+.func_content {
+  justify-content: space-between;
+}
+
+.dropdown:hover .dropdown_content {
+    display: block; 
+}
+
+.dropdown_icon {
+  background-image: url(../imgs/triangle.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center; 
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+  z-index: 2;
+}
+
+
+.dropdown:hover .dropdown_icon {
+  transform: rotate(90deg);
+}
+

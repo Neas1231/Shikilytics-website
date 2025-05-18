@@ -1,0 +1,44 @@
+.profile {
+  display: inline-flex;
+  align-items: center;
+}
+
+.profile:hover {
+  background: #4e5257; 
+}
+
+.profile_pic {
+  border-radius: 20px;
+  width: 40px;
+  height: 40px;
+}
+
+.profile_pic_container {
+  background-color: white; 
+  display: inline-block; 
+  border-radius: 20px;
+}
+
+.nickname {
+  padding: 0 0 0 10px;
+}
+
+.profile_container {
+  cursor: pointer;
+  background-color: #343434;
+  position: relative;
+}
+
+.profile_container:hover{
+  background-color: #4e5257;
+}
+
+.profile_container:hover .dropdown_content {
+    display: block; 
+}
+
+.profilename_input {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
