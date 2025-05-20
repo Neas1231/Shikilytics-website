@@ -14,22 +14,10 @@
   {% include "header.html" %}
   
   <div class="plate mx-auto bg-white shadow-xl rounded-2xl p-6">
-    <h1 class="text-2xl font-bold mb-4 text-center">📊 Мой дашборд</h1>
     <div id="chart"></div>
   </div>
 
-  <script>
-    const trace = {
-      x: ['2024-01', '2024-02', '2024-03'],
-      y: [120, 150, 180],
-      type: 'scatter',
-      mode: 'lines+markers',
-      line: { color: '#4f46e5', width: 3 }
-    };
-
-    Plotly.newPlot('chart', [trace], { margin: { t: 30 } });
-  </script>
-
+  {% include "alert.html" %}
   {% include "footer.html" %}
 
 </body>

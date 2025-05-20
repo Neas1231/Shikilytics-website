@@ -1,0 +1,23 @@
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/alert.css">
+</head>
+<body>
+    <div class="toast {% if error %}active{% endif %}">
+  
+        <div class="toast-content">
+            <i class="fas fa-solid fa-check check"></i>
+
+            <div class="message">
+            <span class="text text-1">Ошибка</span>
+            <span class="text text-2">Профиль не существует или не поддерживается</span>
+            </div>
+        </div>
+
+            <div class="close">&times;</div>
+            
+        <div class="progress {% if error %}active{% endif %}"></div>
+        <script src="static/js/show_alert.js"></script>
+    </div>
+    
+</body>
