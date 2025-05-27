@@ -1,2 +1,6 @@
 flask
 bs4
+tqdm
+pandas
+aiohttp
+asyncio
