@@ -22,7 +22,6 @@ def index():
 
 @app.route("/<profile_id>", methods=['GET', 'POST'])
 def confirm_profile_id(profile_id):
-    print(request)
     if request.method == 'POST':
         profile_id = request.form["profile_id"]
         return redirect(url_for('confirm_profile_id', profile_id=profile_id))
@@ -35,7 +34,11 @@ def confirm_profile_id(profile_id):
     if page.status_code != 200:
         return render_main(error=True)
     soup = BeautifulSoup(page.text, 'html.parser')
-    profile_pic = soup.find('div', class_="avatar").find("img")['src']
+    profile_pic = soup.find('div', class_="avatar")
+    if profile_pic is not None:
+        profile_pic = profile_pic.find("img")['src']
+    else:
+        return render_main(error=True)
     return render_template("index.html", profile_name=profile_name, profile_pic=profile_pic)
 
 
