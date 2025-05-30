@@ -17,16 +17,22 @@
    <link rel="stylesheet" href="{{ url_for('static', filename='css/func.css') }}">
    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
    <link rel="stylesheet" href="{{ url_for('static', filename='css/alert.css') }}">
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
   
   {% include "header.html" %}
   
-  <div class="plate mx-auto bg-white shadow-xl rounded-2xl p-6">
+  {% include "help.html" %}
+  <script src="static/js/show_help.js" defer></script>
+  <div class="plate mx-auto bg-white shadow-xl rounded-2xl">
+    
+    <img class="help" src="static/imgs/info.png">
+      
     <div class="plate_container">
       <h1 class="main_head">Рекомендательная система Shikilytics</h1>
-      <div class="info">
-        <div class="info_rows">
+      <div class="main_info">
+        <div class="main_info_rows">
           <div class="rows_content"><div class="rows_img"><img src="static/imgs/chart.png"></div>Аналитика своего профиля Shikimori</div>
           <div class="rows_content"><div class="rows_img"><img src="static/imgs/recommend.png"></div>Пользовательские рекомендации</div>
           <div class="rows_content"><div class="rows_img"><img src="static/imgs/search.png"></div>Поиск и рекомендации по фильтрам</div>
@@ -34,11 +40,19 @@
         <div style="width: 10%;"></div>
         <img class="cat" src="static/imgs/cat.png">
       </div>
-      <div class="enter_profile">
-        Войти в профиль
+
+
+
+      <div class="enter_profile" id="toggleButton">
+        <button>
+          Войти в профиль
+        </button>
+        <script src="static/js/show_profile_button.js" defer></script>
       </div>
-  
+      
+
     </div>
+    
   </div>
 
   {% include "alert.html" %}

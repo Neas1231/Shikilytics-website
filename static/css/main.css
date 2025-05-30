@@ -12,6 +12,11 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+.visible_profile {
+    display: block;
+}
+
+
 /* Header menu */
 .top_menu {
   background: #343434;
@@ -83,16 +88,7 @@ input[type="text"] {
   padding: 0 0 0 15px;
 }
 
-.plate {
-    width: 95%;
-    min-width: 800px;
-    font-family: 'Montserrat';
-}
-
-.plate_container {
-  display: inline;
-  
-}
+/* Footer */
 
 footer {
     clear: both;
@@ -109,6 +105,74 @@ footer {
     white-space: nowrap;
 }
 
+/* Help info */
+.help {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.overlay {
+  display: flex;
+  visibility: hidden;
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%; 
+  background-color: rgba(0, 0, 0, 0.7); 
+  z-index: 1000;
+  opacity: 0;
+
+  transition: opacity 0.5s ease, transform 0.5s ease; 
+}
+
+.overlay.active {
+  visibility: visible;
+  opacity: 1;
+
+}
+
+.help_block {
+  position: relative;
+  width: 60%;
+  height: 90%;
+  margin: auto auto;
+  z-index: 1001;
+}
+
+.help_block .help_close {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  
+  cursor: pointer;
+  opacity: 0.7;
+  color: #000000;
+  font-size: 24px;
+}
+
+.help_block .help_close:hover {
+  opacity: 1;
+}
+
+/* Main plate */
+
+.plate {
+    position: relative;
+    width: 95%;
+    min-width: 800px;
+    font-family: 'Montserrat';
+    padding: 10px;
+}
+
+.plate_container {
+  display: inline;
+}
+
 .main_head {
   font-size: 50px;
   font-weight: 500;
@@ -123,7 +187,7 @@ footer {
   align-items: center;
 }
 
-.info {
+.main_info {
   display: flex;
   flex: 1;
   width: 70%;
@@ -139,12 +203,12 @@ footer {
 } */
 
 .cat {
-  width: 35%;
+  width: 30%;
   height: 10%;
 }
 
 
-.info_rows {
+.main_info_rows {
   display: grid;
   gap: 20px;
   width: 55%;
@@ -154,7 +218,7 @@ footer {
   display: flex;
   /* justify-content: center; */
   align-items: center;
-  background-color: rgb(213, 231, 226);
+  background-color: rgb(228, 238, 235);
   padding: 24px 30px;
   border-radius: 70px;
   gap: 15px;
@@ -179,11 +243,15 @@ footer {
 }
 
 .enter_profile {
-  width: 200px;
+  width: 300px;
   height: 100px;
-  background-color: rgb(255, 255, 255);
-  border-radius: 40%;
+  margin: 20px auto auto;
+  background-color: #3e3e3e;
+  border-radius: 35px;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
 }
