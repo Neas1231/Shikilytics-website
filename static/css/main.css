@@ -83,6 +83,17 @@ input[type="text"] {
   padding: 0 0 0 15px;
 }
 
+.plate {
+    width: 95%;
+    min-width: 800px;
+    font-family: 'Montserrat';
+}
+
+.plate_container {
+  display: inline;
+  
+}
+
 footer {
     clear: both;
     padding-top: 15px;
@@ -96,4 +107,83 @@ footer {
     padding: 3px 5px 7px 0;
     vertical-align: middle;
     white-space: nowrap;
+}
+
+.main_head {
+  font-size: 50px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 2% 0;
+  white-space: nowrap;
+}
+
+.plate_container p {
+  display: flex;
+  align-items: center;
+}
+
+.info {
+  display: flex;
+  flex: 1;
+  width: 70%;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+/* .info * {
+  flex-grow: 1;
+  flex-basis: 0;
+  font-size: 20px;
+} */
+
+.cat {
+  width: 35%;
+  height: 10%;
+}
+
+
+.info_rows {
+  display: grid;
+  gap: 20px;
+  width: 55%;
+}
+
+.rows_content {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  background-color: rgb(213, 231, 226);
+  padding: 24px 30px;
+  border-radius: 70px;
+  gap: 15px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.rows_img {
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rows_img img {
+  width: 50px;
+  height: 50px;
+}
+
+.enter_profile {
+  width: 200px;
+  height: 100px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

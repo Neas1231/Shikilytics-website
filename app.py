@@ -4,6 +4,7 @@ import requests
 
 from generate import generate_random_header
 
+
 app = Flask(__name__, template_folder='templates')
 PROFILE_NAME = "Профиль"
 PROFILE_PIC = "static/imgs/profile_default.png"
@@ -11,7 +12,7 @@ PROFILE_PIC = "static/imgs/profile_default.png"
 
 @app.route("/")
 def render_main(profile_name=PROFILE_NAME, profile_pic=PROFILE_PIC, error=None):
-    return render_template("index.html", profile_name=profile_name, profile_pic=profile_pic, error=error)
+    return render_template("main.html", profile_name=profile_name, profile_pic=profile_pic, error=error)
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -39,7 +40,7 @@ def confirm_profile_id(profile_id):
         profile_pic = profile_pic.find("img")['src']
     else:
         return render_main(error=True)
-    return render_template("index.html", profile_name=profile_name, profile_pic=profile_pic)
+    return render_template("main.html", profile_name=profile_name, profile_pic=profile_pic)
 
 
 if __name__ == "__main__":

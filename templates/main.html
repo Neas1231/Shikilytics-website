@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Shikilytics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <!--Roboto-->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <!--Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <!-- Styles -->
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/logo.css') }}">
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/func.css') }}">
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/alert.css') }}">
+</head>
+<body>
+  
+  {% include "header.html" %}
+  
+  <div class="plate mx-auto bg-white shadow-xl rounded-2xl p-6">
+    <div class="plate_container">
+      <h1 class="main_head">Рекомендательная система Shikilytics</h1>
+      <div class="info">
+        <div class="info_rows">
+          <div class="rows_content"><div class="rows_img"><img src="static/imgs/chart.png"></div>Аналитика своего профиля Shikimori</div>
+          <div class="rows_content"><div class="rows_img"><img src="static/imgs/recommend.png"></div>Пользовательские рекомендации</div>
+          <div class="rows_content"><div class="rows_img"><img src="static/imgs/search.png"></div>Поиск и рекомендации по фильтрам</div>
+        </div>
+        <div style="width: 10%;"></div>
+        <img class="cat" src="static/imgs/cat.png">
+      </div>
+      <div class="enter_profile">
+        Войти в профиль
+      </div>
+  
+    </div>
+  </div>
+
+  {% include "alert.html" %}
+  {% include "footer.html" %}
+
+</body>
+</html>
