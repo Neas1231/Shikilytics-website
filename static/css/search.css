@@ -1,0 +1,60 @@
+.search-container {
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    margin: 20px; 
+}
+
+.search-input {
+    width: 800px; 
+    padding: 10px; 
+    background-color: #343434;
+    border: 2px #343434; 
+    border-radius: 5px 0 0 5px; 
+    font-size: 16px; 
+    transition: border-color 0.3s;
+    color: white;
+}
+
+.search-input:focus {
+    outline: none;
+}
+
+.search-button {
+    height: 100%;
+    padding: 10px 15px; 
+    border: 2px #343434; 
+    background-color: #343434; 
+    color: #343434; 
+    border-radius: 0 5px 5px 0; 
+    cursor: pointer; 
+    transition: background-color 0.3s, border-color 0.3s; 
+}
+
+.search-button:hover {
+    background-color: #4e5257; 
+    border-color: #007BFF; 
+}
+
+.search_white_ico {
+    width: 23px;
+    height: 24px;
+}
+
+.anime-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.anime-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    width: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.anime-item img {
+    width: 100%;
+    border-radius: 5px;
+}

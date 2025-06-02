@@ -1,4 +1,4 @@
-flask
+flask[async]
 bs4
 tqdm
 pandas
@@ -7,3 +7,4 @@ asyncio
 psycopg2
 python-dotenv
 requests
+asyncpg

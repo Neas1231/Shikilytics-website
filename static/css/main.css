@@ -74,7 +74,7 @@ body {
 }
 
 /* Inputs */
-input[type="text"] {
+.profile_input {
     width: 100%; /* Ширина на весь контейнер */
     height: 100%; /* Высота на весь контейнер */
     padding: 10px; /* Отступы внутри текстового поля */
@@ -164,7 +164,7 @@ footer {
 .plate {
     position: relative;
     width: 95%;
-    min-width: 800px;
+    min-width: 1000px;
     font-family: 'Montserrat';
     padding: 10px;
 }

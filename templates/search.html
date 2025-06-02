@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Shikilytics Search</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <link rel="icon" href="{{ url_for('static', filename='imgs/ico.ico') }}" type="image/x-icon">
+  <!--Roboto-->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <!--Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/logo.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/func.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  
+    {% include "header.html" %}
+    <div class="plate mx-auto bg-white shadow-xl rounded-2xl">
+
+      <h1 class="main_head">Поиск по описанию</h1>
+
+      <div class="search-container">
+        <form class="profilename_input" id="profile-form" method="post">
+        <input type="text" class="search-input" placeholder="Поиск..." name="search_text">
+        <button class="search-button"><img class="search_white_ico" src="{{ url_for('static', filename='imgs/search_white.png') }}"></button>
+        </form>
+      </div>
+
+      <div class="anime-list" id="anime-list">
+        {% if search_output %}
+        {% for anime in search_output %}
+        <div class="anime-item">
+            <img src="/static/posters/{{ anime.image_path }}" alt="{{ anime.title }}">
+            <h2>{{ anime.title }}</h2>
+            <p>{{ anime.description }}</p>
+        </div>
+        {% endfor %}
+        {% endif %}    
+      </div>
+
+      <!-- <script>
+          async function fetchAnimes() {
+              const response = await fetch('/api/animes');
+              const animes = await response.json();
+              const animeList = document.getElementById('anime-list');
+
+              animes.forEach(anime => {
+                  const animeItem = document.createElement('div');
+                  animeItem.className = 'anime-item';
+                  animeItem.innerHTML = `
+                      <img src="${anime.image}" alt="${anime.title}">
+                      <h2>${anime.title}</h2>
+                      <p>${anime.description}</p>
+                  `;
+                  animeList.appendChild(animeItem);
+              });
+          }
+
+          // Загружаем аниме при загрузке страницы
+          window.onload = fetchAnimes;
+      </script> -->
+
+    </div>
+</body>

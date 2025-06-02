@@ -32,3 +32,11 @@ p {
     top: 0;
     bottom: 0;
 }
+
+.header {
+    padding-top: 5px;
+}
+
+.text-3xl {
+    padding-top: 20px;
+}

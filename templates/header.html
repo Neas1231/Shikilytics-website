@@ -13,23 +13,23 @@
             <span class="dropdown_icon"></span>
          </div>
          <div class="dropdown_content">
-            <a href="#function1">Функция 1</a>
-            <a href="#function2">Функция 2</a>
-            <a href="#function3">Функция 3</a>
+            {% for func in funcs %}
+            <a href="{% if profile_id %}/{{profile_id}}{% endif %}/funcs/function{{loop.index}}">{{func}}</a>
+            {% endfor %}
          </div>
    </div>
     
       <div class="profile_container on_menu">
          <div class="profile">
                <div class="profile_pic_container">
-                  <img class="profile_pic" src="{{profile_pic}}">
+                  <img class="profile_pic" src="{% if profile_pic %}{{profile_pic}}{% else %}{{ url_for('static', filename='imgs/profile_default.png') }}{% endif %}">
                </div>
                <span class="nickname">{{ profile_name }}</span>
          </div>
          
          <div class="dropdown_content dropdown" id="profile">
             <form class="profilename_input" id="profile-form" method="post">
-               <input type="text" placeholder="Введите имя профиля" id="profile-id" name="profile_id" required>
+               <input class="profile_input" type="text" placeholder="Введите имя профиля" id="profile-id" name="profile_id" required>
                <button class="button" id="confirm-button" type="submit">Подтвердить</button>
             </form>
          </div>
