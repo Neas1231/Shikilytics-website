@@ -28,11 +28,12 @@ def bar_count_chart(count_list):
     data = {
     'category': ['Сравнение','Сравнение','Сравнение'],
     'type': ['','Просмотрено','В списке'],
-    'values': [0,watched, other_count],
+    'values': [0, watched, other_count],
     }
     df = pd.DataFrame(data)
 
     fig = px.bar(df, x="values", y="category",color='type', orientation='h',color_discrete_sequence=px.colors.sequential.Darkmint)
+    fig.update_traces(text=df['values'],texttemplate='%{x}', textposition='outside')
     fig.update_layout(
         showlegend=False,  
         title='',          

@@ -84,11 +84,15 @@ async def parse_page(html):
 async def history_fetch(base_url):
     parsed_history = []
     async with aiohttp.ClientSession() as session:
+        retry_times = 0
         page_number = 1
         while True:
             url = f"{base_url}?page={page_number}"
             html = await fetch(session, url)
             if not bool(html):
+                retry_times += 1
+                if retry_times > 10:
+                    return None
                 await asyncio.sleep(3)
                 continue
             result = await parse_page(html)

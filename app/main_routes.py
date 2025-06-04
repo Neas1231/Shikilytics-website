@@ -62,6 +62,8 @@ async def confirm_profile_id(profile_id):
         profile_name, profile_pic = profile
         # history fetch
         parsed_history = await history_fetch(base_url)
+        if not parsed_history:
+            return redirect(url_for('main.render_main', error=True))
         watched = watched_anime(parsed_history)
         cache_user_data(profile_name, profile_pic, count_list, watched)
     else:
