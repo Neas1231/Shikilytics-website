@@ -28,7 +28,7 @@
       <h2 class="second_head">Список аниме</h2>
       <div class="count_container">
         {% for graph in count_figures %}
-        {{ graph|safe }}
+        {% if loop.index == 2 %}<div style="width: 100%;">{{ graph|safe }}</div>{% else %} {{ graph|safe }}{% endif %}
         {% endfor %}
       </div>
       <h2 class="second_head">Просмотренные аниме</h2>

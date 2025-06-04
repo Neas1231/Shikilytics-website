@@ -84,6 +84,7 @@ async def confirm_profile_id(profile_id):
     watched_metrics = []
     watched_metrics.append(['Средний рейтинг просмотренных', str(watched_df.loc[watched_df.rating != 'unk','rating'].astype(float).mean().round(3)) + '⭐'])
     watched_metrics.append(['Среднее количество эпизодов у сериала', watched_df.loc[watched_df.episodes != 'unk','episodes'].astype(int).mean().round(3)])
+    watched_metrics.append(['Средняя продолжительность эпизода', float(watched_df.duration.mean().round(3))])
     watched_metrics.append(['Наиболее популярный год', int(watched_df.loc[watched_df.date != 'unk','date'].astype(float).mode().values[0])])
     return render_profile(profile_id, profile_name=profile_name, profile_pic=profile_pic, 
                           count_figures=count_figs,

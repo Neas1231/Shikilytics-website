@@ -3,7 +3,7 @@ import plotly.express as px
 import plotly.offline as pyo
 
 HIST_WIDTH = 1100
-HIST_HEIGHT = 450
+HIST_HEIGHT = 350
 
 def pie_count_chart(count_list):
     count_df = pd.DataFrame(count_list,columns=['type','count'])
@@ -42,7 +42,7 @@ def bar_count_chart(count_list):
         yaxis=dict(showgrid=False, zeroline=False),   
         plot_bgcolor='rgba(0, 0, 0, 0)',  
         paper_bgcolor='rgba(0, 0, 0, 0)',
-        width=800,   
+        # width=800,   
         height=190,
         font=dict(size=16)
     )
