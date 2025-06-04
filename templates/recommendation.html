@@ -24,32 +24,8 @@
     {% include "header.html" %}
     <div class="plate mx-auto bg-white shadow-xl rounded-2xl">
 
-      <h1 class="main_head analytics">Аналитика профиля</h1>
-      <h2 class="second_head">Список аниме</h2>
-      <div class="count_container">
-        {% for graph in count_figures %}
-        {{ graph|safe }}
-        {% endfor %}
-      </div>
-      <h2 class="second_head">Просмотренные аниме</h2>
-      <div class="watched_container">
-        <div>
-        {% for graph in watched_figures %}
-        <h3 class="third_head">{{watched_names[loop.index-1]}}</h3>
-        {{ graph|safe }}
-        {% endfor %}
-        </div>
-        <div class="metrics_container">
-          
-            {% for metric in watched_metrics %}
-            <div class="metric_item">
-            <label class="description">{{metric[0]}}</label>
-            <div class="metric_value">{{metric[1]}}</div>
-            </div>
-            {% endfor %}
-          
-        </div>
-      </div>
+      <h1 class="main_head">Индивидуальные рекомендации</h1>
+
     </div>
     {% include "footer.html" %}
 </body>

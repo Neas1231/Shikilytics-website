@@ -1,10 +1,10 @@
 from flask import Blueprint, render_template, jsonify, redirect, url_for, request
 import asyncio
-import asyncpg  
-from bs4 import BeautifulSoup
-import requests
+import asyncpg
+import json
 
-from generate import generate_random_header
+from .cache import cache_user_data, r
+from .utils import profile_fetch
 
 funcs = Blueprint('funcs', __name__)
 
@@ -14,9 +14,9 @@ PROFILE_FUNCS = ['Поиск по описанию', 'Аналитика про�
 
 # FETCH DATA
 # async def fetch_data():
-#     conn = await asyncpg.connect(user='user', password='password', database='dbname', host='127.0.0.1')
-#     rows = await conn.fetch('SELECT * FROM your_table')
-#     await conn.close()
+#     conn = asyncpg.connect(user='user', password='password', database='dbname', host='127.0.0.1')
+#     rows = conn.fetch('SELECT * FROM your_table')
+#     conn.close()
 #     return rows
 
 # Пример списка аниме
@@ -42,52 +42,73 @@ animes = [
 ]
 
 # @funcs.route('/api/animes', methods=['GET'])
-async def get_animes():
-    # await asyncio.sleep(5)
+def get_animes():
+    # asyncio.sleep(5)
     return animes
     # return jsonify(animes)
 
 # DEFAULT SEARCH OUTPUT
 @funcs.route('/funcs/function1', methods=['GET', 'POST'])
-async def search(search_output = None):
+def search(search_output = None):
     if request.method == 'POST':
         if 'profile_id' in request.form:
             profile_id = request.form["profile_id"]
             return redirect(url_for('main.confirm_profile_id', profile_id=profile_id))
         elif "search_text" in request.form:
-            # data = await fetch_data()  # Асинхронный вызов к базе данных
+            # data = fetch_data()  # Асинхронный вызов к базе данных
             # return jsonify(data)
-            search_output = await get_animes()
+            search_output = get_animes()
             return render_template('search.html',profile_name=PROFILE_NAME, profile_pic=None, funcs=DEFAULT_FUNCS, search_output=search_output)
     return render_template('search.html',profile_name=PROFILE_NAME, profile_pic=None, funcs=DEFAULT_FUNCS, search_output=search_output)
 
 # PROFILE SEARCH OUTPUT
 @funcs.route('/<profile_id>/funcs/function1', methods=['GET', 'POST'])
-async def search_profile(profile_id, search_output = None):
+def search_profile(profile_id, search_output = None):
     if request.method == 'POST':
         if 'profile_id' in request.form:
             profile_id = request.form["profile_id"]
             return redirect(url_for('main.confirm_profile_id', profile_id=profile_id))
         elif "search_text" in request.form:
-            # data = await fetch_data()  # Асинхронный вызов к базе данных
+            # data = fetch_data()  # Асинхронный вызов к базе данных
             # return jsonify(data)
-            search_output = await get_animes()
+            search_output = get_animes()
             return render_template('search.html',profile_name=PROFILE_NAME, profile_pic=None, funcs=DEFAULT_FUNCS, search_output=search_output)
-    profile_name = profile_id
-    profile_id = profile_id.replace(' ', '+')
-    # profile pic
-    page = requests.get(
-        f"https://shikimori.one/{profile_id}", headers=generate_random_header())
-    if page.status_code != 200:
-        return redirect(url_for('main.render_main', error=True))
-    soup = BeautifulSoup(page.text, 'html.parser')
-    profile_pic = soup.find('div', class_="avatar")
-    if profile_pic is not None:
-        profile_pic = profile_pic.find("img")['src']
+    # profile fetch
+    user_data = r.get(profile_id)
+    if not user_data:
+        profile, count_list = profile_fetch(profile_id), profile_fetch(profile_id, kind='count_list')
+        # profile name
+        if type(profile) != type(tuple()):
+            return profile
+        profile_name, profile_pic = profile
+        cache_user_data(profile_name, profile_pic, count_list)
     else:
-        return redirect(url_for('main.render_main', error=True))
+        user_data = json.loads(user_data)
+        profile_name, profile_pic, = user_data['username'],user_data['avatar_path']
     return render_template('search.html', profile_id=profile_id, profile_name=profile_name, profile_pic=profile_pic, funcs=PROFILE_FUNCS, search_output=search_output)
 
 @funcs.route('/<profile_id>/funcs/function2', methods=['GET', 'POST'])
 def analytic(profile_id):
     return redirect(url_for('main.confirm_profile_id', profile_id=profile_id))
+
+@funcs.route('/<profile_id>/funcs/function3', methods=['GET', 'POST'])
+def recommendation(profile_id):
+    if request.method == 'POST':
+        if 'profile_id' in request.form:
+                profile_id = request.form["profile_id"]
+                return redirect(url_for('main.confirm_profile_id', profile_id=profile_id))
+    # profile fetch
+    profile_id = profile_id.replace(' ', '+')
+    user_data = r.get(profile_id)
+    
+    if not user_data:
+        profile, count_list = profile_fetch(profile_id), profile_fetch(profile_id, kind='count_list')
+        # profile name
+        if type(profile) != type(tuple()):
+            return profile
+        profile_name, profile_pic = profile
+        cache_user_data(profile_name, profile_pic, count_list)
+    else:
+        user_data = json.loads(user_data)
+        profile_name, profile_pic, = user_data['username'],user_data['avatar_path']
+    return render_template('recommendation.html', profile_id=profile_id, profile_name=profile_name, profile_pic=profile_pic, funcs=PROFILE_FUNCS)

@@ -29,6 +29,22 @@
   
   {% include "help.html" %}
   <script src="static/js/show_help.js" defer></script>
+  <div class="overlay_loader overlay"> 
+    <div id="loader" class="loader" style="display: none;"></div>
+  </div>
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const loader = document.getElementById('loader');
+          const form = document.getElementById('profile-form');
+          const help_block = document.querySelector(".overlay_loader");
+
+          form.addEventListener('submit', function(event) {
+            // Показать индикатор загрузки
+            help_block.classList.toggle("active");
+            loader.style.display = 'block';
+            }); 
+          });
+  </script>
   <div class="plate mx-auto bg-white shadow-xl rounded-2xl">
     
     <img class="help" src="static/imgs/info.png">

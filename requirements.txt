@@ -4,7 +4,11 @@ tqdm
 pandas
 aiohttp
 asyncio
+asyncpg
 psycopg2
+sqlalchemy
 python-dotenv
 requests
-asyncpg
+nbformat==4.2.0
+plotly
+redis

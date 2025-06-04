@@ -42,3 +42,56 @@
   align-items: center;
   justify-content: left;
 }
+
+.count_container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+h1.analytics {
+  padding-bottom: 0;
+}
+
+.second_head {
+  font-size: 35px;
+  font-weight: 400;
+  display: flex;
+  justify-content: left;
+  padding-left: 20px;
+  white-space: nowrap;
+}
+
+.third_head {
+  font-size: 30px;
+  font-weight: 300;
+  display: flex;
+  justify-content: left;
+  padding-top: 10px;
+  padding-left: 20px;
+  white-space: nowrap;
+}
+
+.watched_container {
+  display: flex;
+  align-items: center;
+}
+
+.description {
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.metrics_container {
+  display: grid;
+  grid-auto-rows: minmax(100px, auto);
+}
+
+.metric_item {
+  padding: 30px 0 30px 0;
+}
+
+.metric_value {
+  font-size: 35px;
+  font-weight: 350;
+}
