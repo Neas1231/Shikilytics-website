@@ -88,19 +88,6 @@ def search(search_output = None):
 # PROFILE SEARCH OUTPUT
 @funcs.route('/<profile_id>/funcs/function1', methods=['GET', 'POST'])
 def search_profile(profile_id, search_output = None):
-    if request.method == 'POST':
-        if 'profile_id' in request.form:
-            profile_id = request.form["profile_id"]
-            return redirect(url_for('main.confirm_profile_id', profile_id=profile_id))
-        elif "search_text" in request.form:
-            # data = fetch_data()  # Асинхронный вызов к базе данных
-            # return jsonify(data)
-            search_output = get_search()
-            return render_template('search.html',
-                           profile_name=PROFILE_NAME, profile_pic=None,
-                           funcs=DEFAULT_FUNCS, 
-                           search_output=search_output,
-                           genres=GENRES, studios=STUDIOS)
     # profile fetch
     user_data = r.get(profile_id)
     if not user_data:
@@ -113,6 +100,19 @@ def search_profile(profile_id, search_output = None):
     else:
         user_data = json.loads(user_data)
         profile_name, profile_pic, = user_data['username'],user_data['avatar_path']
+        
+    if request.method == 'POST':
+        if 'profile_id' in request.form:
+            profile_id = request.form["profile_id"]
+            return redirect(url_for('main.confirm_profile_id', profile_id=profile_id))
+        elif "search_text" in request.form:
+            search_output = get_search(request.form['search_text'], request.form["genre_filter"], request.form["studio_filter"])
+            return render_template('search.html',
+                                    profile_id=profile_id,
+                                    profile_name=profile_name, profile_pic=profile_pic,
+                                    funcs=PROFILE_FUNCS, 
+                                    search_output=search_output,
+                                    genres=GENRES, studios=STUDIOS)
     return render_template('search.html', 
                            profile_id=profile_id, profile_name=profile_name, profile_pic=profile_pic, 
                            funcs=PROFILE_FUNCS, 

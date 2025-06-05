@@ -6,7 +6,7 @@
 }
 
 .search-input {
-    width: 800px; 
+    width: 600px; 
     padding: 10px; 
     background-color: #343434;
     border: 2px #343434; 
@@ -60,7 +60,7 @@
 
 .search_filter {
     height: 100%;
-    padding: 11px 0 12px 15px; 
+    padding: 13px 0 12px 15px;
     background-color: #343434; 
     color: white; 
     cursor: pointer; 
@@ -74,4 +74,8 @@
     color: #343434; 
     border-radius: 0 5px 5px 0;
     transition: background-color 0.3s, border-color 0.3s; 
+}
+
+option {
+    font-family: 'Montserrat';
 }

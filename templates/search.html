@@ -32,15 +32,15 @@
         <input type="text" class="search-input" placeholder="Поиск..." name="search_text">
         <button class="search-button"><img class="search_white_ico" src="{{ url_for('static', filename='imgs/search_white.png') }}"></button>
         <select class ="search_filter" name="genre_filter" id="dropdown1">
-            <option value="default">Жанры</option>
+            <option class="options" value="default">Жанры</option>
             {% for genre in genres%}
-            <option value="{{genre}}">{{genre}}</option>
+            <option class="options" value="{{genre}}">{{genre}}</option>
             {% endfor %}
         </select>
         <select class ="search_filter" name="studio_filter" id="dropdown2">
-            <option value="default">Студии</option>
+            <option class="options" value="default">Студии</option>
             {% for studio in studios%}
-            <option value="{{studio}}">{{studio}}</option>
+            <option class="options" value="{{studio}}">{{studio}}</option>
             {% endfor %}
         </select>
         <div class="search_border">s</div>
