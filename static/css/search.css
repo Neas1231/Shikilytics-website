@@ -26,7 +26,6 @@
     border: 2px #343434; 
     background-color: #343434; 
     color: #343434; 
-    border-radius: 0 5px 5px 0; 
     cursor: pointer; 
     transition: background-color 0.3s, border-color 0.3s; 
 }
@@ -57,4 +56,22 @@
 .anime-item img {
     width: 100%;
     border-radius: 5px;
+}
+
+.search_filter {
+    height: 100%;
+    padding: 11px 0 12px 15px; 
+    background-color: #343434; 
+    color: white; 
+    cursor: pointer; 
+    transition: background-color 0.3s, border-color 0.3s; 
+}
+
+.search_border {
+    height: 100%;
+    padding: 10px 0 10px 15px; 
+    background-color: #343434; 
+    color: #343434; 
+    border-radius: 0 5px 5px 0;
+    transition: background-color 0.3s, border-color 0.3s; 
 }

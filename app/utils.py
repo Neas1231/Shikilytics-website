@@ -9,6 +9,9 @@ import pandas as pd
 import os
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
 
 load_dotenv()
 HOST = os.getenv("HOST")
@@ -35,6 +38,39 @@ def generate_random_header():
     
     return headers
 
+def search_anime(user_description, df):
+    vectorizer = TfidfVectorizer()
+
+    descriptions = df['description'].tolist()
+    descriptions.append(user_description)
+
+    tfidf_matrix = vectorizer.fit_transform(descriptions)
+
+    cosine_similarities = cosine_similarity(tfidf_matrix[-1], tfidf_matrix[:-1])
+
+    df['similarity'] = cosine_similarities.flatten()
+    
+    return df
+
+def truncate_sentence(sentence, word_count):
+    words = sentence.split()
+
+    if len(words) <= word_count:
+        return sentence  
+    
+    truncated = ' '.join(words[:word_count - 1]) + '...'
+    
+    return truncated
+
+def fetch_poster(link):
+    page = requests.get(link, headers=generate_random_header())
+    if page.status_code != 200:
+        return None
+    soup = BeautifulSoup(page.text, 'html.parser')
+    poster_div = soup.find('div',class_="b-db_entry-poster")
+    if not poster_div:
+        return None
+    return poster_div.find('img')['src']
 
 
 def profile_fetch(profile_id, kind='header'):

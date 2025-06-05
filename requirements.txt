@@ -12,3 +12,4 @@ requests
 nbformat==4.2.0
 plotly
 redis
+scikit-learn

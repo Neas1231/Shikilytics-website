@@ -31,6 +31,19 @@
         <form class="profilename_input" id="profile-form" method="post">
         <input type="text" class="search-input" placeholder="Поиск..." name="search_text">
         <button class="search-button"><img class="search_white_ico" src="{{ url_for('static', filename='imgs/search_white.png') }}"></button>
+        <select class ="search_filter" name="genre_filter" id="dropdown1">
+            <option value="default">Жанры</option>
+            {% for genre in genres%}
+            <option value="{{genre}}">{{genre}}</option>
+            {% endfor %}
+        </select>
+        <select class ="search_filter" name="studio_filter" id="dropdown2">
+            <option value="default">Студии</option>
+            {% for studio in studios%}
+            <option value="{{studio}}">{{studio}}</option>
+            {% endfor %}
+        </select>
+        <div class="search_border">s</div>
         </form>
       </div>
 
@@ -38,9 +51,11 @@
         {% if search_output %}
         {% for anime in search_output %}
         <div class="anime-item">
-            <img src="/static/posters/{{ anime.image_path }}" alt="{{ anime.title }}">
-            <h2>{{ anime.title }}</h2>
+          <a href="{{anime.link}}">
+            <img src="{{ anime.poster }}" alt="{{ anime.title }}">
+            <h2>{{ anime.name }}</h2>
             <p>{{ anime.description }}</p>
+          </a>
         </div>
         {% endfor %}
         {% endif %}    
