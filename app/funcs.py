@@ -4,7 +4,7 @@ import asyncpg
 import json
 
 from .cache import cache_user_data, r
-from .utils import profile_fetch, anime_fetch, search_anime, fetch_poster, truncate_sentence
+from .utils import profile_fetch, anime_fetch, search_anime, fetch_poster, truncate_sentence, recommend_anime,history_fetch,watched_anime
 
 funcs = Blueprint('funcs', __name__)
 
@@ -55,8 +55,7 @@ def get_search(description, genre, studio):
         df = search_anime(description, df)
         df = df.sort_values(by=["similarity","rating"], ascending=False).reset_index(drop=True)
     
-    df = df.loc[:,['link','name','description']].iloc[:20,:]
-    df['poster'] = df.link.apply(lambda x: fetch_poster(x))
+    df = df.loc[:,['link','name','description','poster']].iloc[:20,:]
     df.loc[:,'description'] = df.description.apply(lambda x: truncate_sentence(x,8))
 
 
@@ -143,4 +142,50 @@ def recommendation(profile_id):
     else:
         user_data = json.loads(user_data)
         profile_name, profile_pic, = user_data['username'],user_data['avatar_path']
-    return render_template('recommendation.html', profile_id=profile_id, profile_name=profile_name, profile_pic=profile_pic, funcs=PROFILE_FUNCS)
+
+    df = anime_fetch()
+    df['name'] = df['name'].str.split(' / ').str.get(0)
+    animes_for_select = df.loc[:,['index','name','poster']].to_dict(orient='records')
+    return render_template('recommendation.html', 
+                           profile_id=profile_id, profile_name=profile_name, profile_pic=profile_pic, 
+                           funcs=PROFILE_FUNCS,
+                           animes=animes_for_select)
+
+
+
+@funcs.route('/recommendations/sim', methods=['POST'])
+async def recommend_by_similarity():
+    data = request.get_json()
+    
+    anime_id = int(data.get('animeId'))
+    profile_id = data.get('profile_id')
+    print(profile_id)
+
+    user_data = r.get(profile_id)
+    if not user_data:
+        base_url = f"https://shikimori.one/{profile_id}/history"
+        # profile fetch
+        profile, count_list = profile_fetch(profile_id), profile_fetch(profile_id, kind='count_list')
+        # profile name
+        if type(profile) != type(tuple()) or not count_list:
+            return redirect(url_for('main.render_main', error=True))
+        profile_name, profile_pic = profile
+        # history fetch
+        parsed_history = await history_fetch(base_url)
+        if not parsed_history:
+            return redirect(url_for('main.render_main', error=True))
+        watched = watched_anime(parsed_history)
+        cache_user_data(profile_name, profile_pic, count_list, watched)
+    else:
+        user_data = json.loads(user_data)
+        profile_name, profile_pic, count_list, watched = user_data['username'], user_data['avatar_path'], user_data['counts'], user_data['watched']
+
+    
+    response = {
+        'animeId': anime_id,
+        'recommendations': recommend_anime(user_animeId = anime_id, watched = watched, num_recommendations=10)
+    }
+    
+    return jsonify(response)
+
+

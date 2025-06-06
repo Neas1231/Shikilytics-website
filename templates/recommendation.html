@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/func.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/recommendation.css') }}">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
@@ -26,7 +27,137 @@
     <div class="plate mx-auto bg-white shadow-xl rounded-2xl">
 
       <h1 class="main_head">Индивидуальные рекомендации</h1>
+      <div>
+        <h2 class="second_head">По похожим аниме</h2>
+        <div class="similarity_recommendations">
+          <div class="selected_anime">
+            <input type="text" id="animeInput" placeholder="Начните вводить название аниме..." oninput="filterAnime()">
+            <div id="suggestions"></div>
+            <div id="poster"></div>
+            <div id="info"></div>
+          </div>
+          <div id="recommendations">
+            
+          </div>
+          <div class="loader" id="loader_sim"></div>
+          <script defer>
+              const animeData = {
+                  {% for anime in animes %}
+                  {{ anime.index }}: {
+                      name: "{{ anime.name }}",
+                      poster: "{{ anime.poster }}",
+                  },
+                  {% endfor %}
+              };
 
+              function filterAnime() {
+                  const input = document.getElementById("animeInput");
+                  const filter = input.value.toLowerCase();
+                  const suggestionsDiv = document.getElementById("suggestions");
+                  suggestionsDiv.innerHTML = ''; // Очистка предыдущих результатов
+
+                  if (filter) {
+                      const filteredAnimes = Object.values(animeData).filter(anime => 
+                          anime.name.toLowerCase().includes(filter)
+                      );
+
+                      if (filteredAnimes.length > 0) {
+                          suggestionsDiv.style.display = 'block'; // Показываем список предложений
+                          filteredAnimes.forEach(anime => {
+                              const suggestionDiv = document.createElement("div");
+                              suggestionDiv.className = "suggestion";
+                              suggestionDiv.textContent = anime.name;
+                              suggestionDiv.onclick = () => selectAnime(anime);
+                              suggestionsDiv.appendChild(suggestionDiv);
+                          });
+                      } else {
+                          suggestionsDiv.style.display = 'none'; // Скрываем, если нет результатов
+                      }
+                  } else {
+                      suggestionsDiv.style.display = 'none'; // Скрываем, если поле пустое
+                  }
+              }
+
+              function selectAnime(anime) {
+                  const input = document.getElementById("animeInput");
+                  const posterDiv = document.getElementById("poster");
+                  const infoDiv = document.getElementById("info");
+                  input.disabled = true;
+                  const recommendationsContainer = document.getElementById('recommendations');
+                  recommendationsContainer.innerHTML = '';
+                  // Получаем текущий URL
+                  const currentUrl = window.location.pathname;
+                  console.log(currentUrl);
+                  // Разделяем URL по символу '/'
+                  const parts = currentUrl.split('/');
+                  console.log(parts);
+                  // Предположим, что вы хотите получить второй участок
+                  const extractedPart = parts[1]; // Индексация начинается с 0
+                  console.log(extractedPart);
+
+                  input.value = anime.name; // Устанавливаем название в input
+                  posterDiv.style.backgroundImage = `url(${anime.poster})`;
+                  infoDiv.innerHTML = `<h2>${anime.name}</h2>`;
+                  const loader = document.getElementById('loader_sim');
+                  loader.style.display = 'block'; // Показываем загрузочный круг
+                  fetch('/recommendations/sim', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({ 
+                          animeId: Object.keys(animeData).find(key => animeData[key].name === anime.name), 
+                          profile_id: extractedPart 
+                      }),
+                  })
+                  .then(response => {
+                      // Проверяем, успешен ли ответ
+                      if (!response.ok) {
+                          throw new Error('Сетевая ошибка: ' + response.statusText);
+                      }
+                      return response.json(); // Преобразуем ответ в JSON
+                  })
+                  .then(data => {
+                      // Обработка полученных рекомендаций
+                      loader.style.display = 'none';
+                      console.log(data);
+                      // Перебираем рекомендации и создаем элементы для отображения
+                      data.recommendations.forEach(rec => {
+                          // Создаем элемент для каждой рекомендации
+                          const recElement = document.createElement('div');
+                          recElement.classList.add('recommendation');
+
+                          // Добавляем информацию о рекомендации
+                          recElement.innerHTML = `
+                              <img src="${ rec.poster }"">
+                              <h2>${rec.name}</h2>
+                              <p><strong>Рейтинг:</strong> ${rec.rating}</p>
+                              <p>${rec.description}</p>
+                              <a href="${rec.link}" target="_blank">Смотреть</a>
+                          `;
+
+                          // Добавляем элемент в контейнер
+                          recommendationsContainer.appendChild(recElement);
+                      });
+                      input.disabled = false;
+                  })
+                  .catch(error => console.error('Ошибка:', error));
+
+
+                  // Скрываем список предложений
+                  document.getElementById("suggestions").style.display = 'none';
+              }
+            </script>
+        </div>
+      </div>
+      
+      <div>
+        <h2 class="second_head">Может быть интересно</h2>
+      </div>
+      
+      <div>
+        <h2 class="second_head">Рекомендуемые в жанрах</h2>
+      </div>
     </div>
     {% include "footer.html" %}
 </body>
