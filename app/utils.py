@@ -11,6 +11,15 @@ from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import linear_kernel
+import nltk
+from nltk.corpus import stopwords
+
+# Убедитесь, что вы загрузили стоп-слова
+nltk.download('stopwords')
+
+# Получите русский список стоп-слов
+russian_stop_words = stopwords.words('russian')
 
 
 load_dotenv()
@@ -37,6 +46,47 @@ def generate_random_header():
     }
     
     return headers
+
+def recommend_anime(user_animeId, watched, num_recommendations=10):
+    # Объединяем данные о просмотренных аниме и базе данных
+    anime_database = anime_fetch()
+    
+    all_anime = anime_database.copy()
+
+    # Создаем TF-IDF векторизатор для описаний и жанров
+    tfidf_vectorizer = TfidfVectorizer(stop_words=russian_stop_words)
+    
+    # Объединяем жанры и описания для векторизации
+    all_anime['combined'] = all_anime['genres'] + ' ' + all_anime['description']
+    
+    # Применяем векторизацию
+    tfidf_matrix = tfidf_vectorizer.fit_transform(all_anime['combined'])
+    
+    # Вычисляем косинусное сходство
+    cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+    
+    # Получаем индекс аниме, которое пользователь уже посмотрел
+    user_index = user_animeId
+    
+    # Получаем пары (индекс, сходство) для аниме, которые пользователь уже посмотрел
+    sim_scores = list(enumerate(cosine_sim[user_index]))
+    
+    # Сортируем аниме по сходству
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    
+    # Получаем индексы аниме, которые пользователь уже посмотрел
+    user_watched_indices = anime_database[anime_database['name'].isin(watched)]['index'].tolist() + [user_animeId]
+    
+    # Исключаем аниме, которые пользователь уже посмотрел
+    sim_scores = [score for score in sim_scores if score[0] not in user_watched_indices]
+    
+    # Получаем топ-N рекомендаций
+    top_indices = [score[0] for score in sim_scores[:num_recommendations]]
+    
+    # Возвращаем рекомендованные аниме
+    recommended_anime = anime_database.iloc[top_indices]
+    
+    return recommended_anime[['name', 'link', 'rating', 'description','poster']].to_dict(orient='records')
 
 def search_anime(user_description, df):
     vectorizer = TfidfVectorizer()

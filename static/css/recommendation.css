@@ -1,0 +1,50 @@
+.similarity_recommendations {
+    display:flex;
+}
+.selected_anime {
+    padding: 10px 0 0 20px;
+}
+#poster {
+    width: 270px;
+    height: 450px;
+    margin: 20px 0;
+    background-size: cover;
+    /* background-position: center; */
+    background-image: url('https://shikimori.one/assets/globals/missing/preview_animanga.png');
+}
+#animeInput {
+    padding: 10px;
+    font-size: 16px;
+    width: 500px;
+    background-color: #343434;
+    color: white;
+}
+#suggestions {
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    display: none;
+    position: absolute;
+    background-color: #343434;
+    color: white;
+    z-index: 1000;
+    width: 300px;
+}
+.suggestion {
+    padding: 10px;
+    cursor: pointer;
+}
+.suggestion:hover {
+    background-color: #f0f0f0;
+}
+
+#loader_sim {
+    display: none;
+}
+
+#recommendations {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 10px;
+    gap:5px;
+}
