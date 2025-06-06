@@ -67,7 +67,7 @@ def fetch_poster(link):
     if page.status_code != 200:
         return None
     soup = BeautifulSoup(page.text, 'html.parser')
-    poster_div = soup.find('div',class_="b-db_entry-poster")
+    poster_div = soup.find('div',class_="c-poster")
     if not poster_div:
         return None
     return poster_div.find('img')['src']
